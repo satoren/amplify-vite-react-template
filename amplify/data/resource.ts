@@ -12,6 +12,24 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
+  Blog: a
+    .model({
+      id: a.string().required(),
+      groupId: a.string().required(),
+      name: a.string().required(),
+      posts: a.hasMany('Post', 'blogId')
+    })
+    .authorization((allow) => [allow.groupDefinedIn('groupId')]),
+  Post: a
+    .model({
+      id: a.string().required(),
+      groupId: a.string().required(),
+      title: a.string().required(),
+      content: a.string().required(),
+      blogId: a.string(),
+      blog: a.belongsTo('Blog', 'blogId')
+    })
+    .authorization((allow) => [allow.groupDefinedIn('groupId')]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
