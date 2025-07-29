@@ -11,7 +11,17 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.publicApiKey()]),    
+    searchTodos: a
+    .query()
+    .returns(a.ref("Todo").array())
+    .authorization((allow) => [allow.publicApiKey()])
+    .handler(
+      a.handler.custom({
+        entry: "./searchTodoResolver.js",
+        dataSource: "osDataSource",
+      })
+    ),
   Blog: a
     .model({
       id: a.string().required(),
