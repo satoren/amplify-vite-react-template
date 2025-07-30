@@ -213,3 +213,8 @@ const cfnPipeline = new osis.CfnPipeline(
     },
   }
 );
+// Add OpenSearch data source 
+const osDataSource = backend.data.addOpenSearchDataSource(
+  "osDataSource",
+  openSearchDomain
+);
